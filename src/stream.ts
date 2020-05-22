@@ -30,9 +30,10 @@ export class Stream extends MediaStream {
   mid?: string;
   rid?: string;
   transport?: WebRTCTransport;
+  stream: MediaStream;
   constructor(stream: MediaStream) {
     super(stream);
-
+    this.stream = stream;
     if (!Stream.dispatch) {
       throw new Error('Dispatch not set.');
     }
@@ -83,6 +84,8 @@ export class LocalStream extends Stream {
   options: StreamOptions;
   constructor(stream: MediaStream, options: StreamOptions) {
     super(stream);
+    // hack: patch for Safari
+    Object.setPrototypeOf(this, LocalStream.prototype);
     this.options = options;
   }
 
@@ -262,6 +265,12 @@ export class RemoteStream extends Stream {
     remote.mid = mid;
     remote.rid = rid;
     return remote;
+  }
+
+  constructor(stream:MediaStream) {
+    super(stream);
+    // hack: patch for Safari
+    Object.setPrototypeOf(this, RemoteStream.prototype);
   }
 
   close() {
