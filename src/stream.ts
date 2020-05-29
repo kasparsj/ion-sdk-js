@@ -30,10 +30,10 @@ export class Stream extends MediaStream {
   mid?: string;
   rid?: string;
   transport?: WebRTCTransport;
-  stream: MediaStream;
+  // stream: MediaStream;
   constructor(stream: MediaStream) {
     super(stream);
-    this.stream = stream;
+    // this.stream = stream;
     if (!Stream.dispatch) {
       throw new Error('Dispatch not set.');
     }
