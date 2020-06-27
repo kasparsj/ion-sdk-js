@@ -30,10 +30,8 @@ export class Stream extends MediaStream {
   mid?: string;
   rid?: string;
   transport?: WebRTCTransport;
-  // stream: MediaStream;
   constructor(stream: MediaStream) {
     super(stream);
-    // this.stream = stream;
     if (!Stream.dispatch) {
       throw new Error('Dispatch not set.');
     }
@@ -49,20 +47,24 @@ export class LocalStream extends Stream {
       video: false,
     },
   ) {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: options.audio,
-      video:
-        options.video instanceof Object
-          ? {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: options.audio,
+        video:
+          options.video instanceof Object
+            ? {
               ...VideoResolutions[options.resolution],
               ...options.video,
             }
-          : options.video
-          ? VideoResolutions[options.resolution]
-          : false,
-    });
-
-    return new LocalStream(stream, options);
+            : options.video
+            ? VideoResolutions[options.resolution]
+            : false,
+      });
+      return new LocalStream(stream, options);
+    }
+    catch (e) {
+      return null;
+    }
   }
 
   static async getDisplayMedia(
