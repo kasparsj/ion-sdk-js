@@ -30,9 +30,6 @@ export class Stream extends MediaStream {
   mid?: string;
   rid?: string;
   transport?: WebRTCTransport;
-  constructor(stream: MediaStream) {
-    super(stream);
-  }
   get dispatch(): Peer {
     if (!Stream.dispatch) {
       throw new Error('Dispatch not set.');
