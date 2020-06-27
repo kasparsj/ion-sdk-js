@@ -10,7 +10,7 @@ Frontend sdk for the Ion backend.
 
 ```ts
 import { Client, LocalStream, RemoteStream } from 'ion-sdk-js';
-const client = new Client({ url: 'wss://endpoint' });
+const client = new Client({ url: 'wss://endpoint/ws' });
 
 // Setup handlers
 client.on('peer-join', (uid: string, info: any) => {});
@@ -52,4 +52,14 @@ client.broadcast(payload);
 
 // Close client connection
 client.close();
+
+// To add your custom stream
+import { LocalStream } from 'ion-sdk-js';
+(...)
+var streamOptions = {
+        codec: 'VP8',
+        resolution: 'hd'
+    }
+var myLocalStream = new LocalStream (yourStreamHere, streamOptions)
+
 ```
